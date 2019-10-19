@@ -20,6 +20,9 @@ var (
 	NewWhois         = types.NewWhois
 	ModuleCdc        = types.ModuleCdc
 	RegisterCodec    = types.RegisterCodec
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	NewMsgRegisterTransfer = types.NewMsgRegisterTransfer()
+	NewTransfer            = types.NewTransfer()
 )
 
 type (
@@ -30,4 +33,9 @@ type (
 	QueryResResolve = types.QueryResResolve
 	QueryResNames   = types.QueryResNames
 	Whois           = types.Whois
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	MsgRegisterTransfer = types.MsgRegisterTransfer
+	QueryTransfers      = types.QueryTransfers
+	QueryTransferInfo   = types.QueryTransferInfo
+	Transfer            = types.Transfer
 )
