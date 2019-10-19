@@ -110,7 +110,7 @@ func (k Keeper) IsNamePresent(ctx sdk.Context, name string) bool {
 func (k Keeper) GetTransfer(ctx sdk.Context, name string) types.Transfer {
 	store := ctx.KVStore(k.storeKey)
 	if !k.IsNamePresent(ctx, name) {
-		return types.Transfer()
+		return types.NewTransfer()
 	}
 	bz := store.Get([]byte(name))
 	var transfer types.Transfer

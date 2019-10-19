@@ -19,3 +19,11 @@ type QueryResNames []string
 func (n QueryResNames) String() string {
 	return strings.Join(n[:], "\n")
 }
+
+// QueryResNames Queries Result Payload for a names query
+type QueryResTransfers []string
+
+// implement fmt.Stringer
+func (n QueryResTransfers) String() string {
+	return strings.Join(n[:], "\n")
+}

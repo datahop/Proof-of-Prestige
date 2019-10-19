@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/spf13/cobra"
+	"strconv"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/context"
@@ -10,6 +10,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/auth/client/utils"
 	"github.com/datahop/sdk-application-tutorial/x/nameservice/internal/types"
+	"github.com/spf13/cobra"
 )
 
 func GetTxCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
@@ -125,10 +126,23 @@ func GetCmdRegisterTransfer(cdc *codec.Codec) *cobra.Command {
 			// 	return err
 			// }
 
-			msg := types.NewMsgRegisterTransfer(cliCtx.GetFromAddress(), args[0], args[1], args[2])
-			err := msg.ValidateBasic()
+			var receiver sdk.AccAddress
+			receiver, err := sdk.AccAddressFromBech32(args[0])
 			if err != nil {
 				return err
+			}
+			//var prestige uint64
+			prestige64, err := strconv.ParseUint(args[1], 10, 32)
+			if err != nil {
+				return err
+			}
+			prestige := uint(prestige64)
+
+			msg := types.NewMsgRegisterTransfer(cliCtx.GetFromAddress(), receiver, prestige, args[2])
+			err2 := msg.ValidateBasic()
+			if err2 != nil {
+				print("Err2")
+				return err2
 			}
 
 			// return utils.CompleteAndBroadcastTxCLI(txBldr, cliCtx, msgs)

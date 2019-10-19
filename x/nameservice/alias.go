@@ -21,21 +21,22 @@ var (
 	ModuleCdc        = types.ModuleCdc
 	RegisterCodec    = types.RegisterCodec
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	NewMsgRegisterTransfer = types.NewMsgRegisterTransfer()
-	NewTransfer            = types.NewTransfer()
+	NewMsgRegisterTransfer = types.NewMsgRegisterTransfer
+	NewTransfer            = types.NewTransfer
 )
 
 type (
-	Keeper          = keeper.Keeper
-	MsgSetName      = types.MsgSetName
-	MsgBuyName      = types.MsgBuyName
-	MsgDeleteName   = types.MsgDeleteName
-	QueryResResolve = types.QueryResResolve
-	QueryResNames   = types.QueryResNames
-	Whois           = types.Whois
+	Keeper            = keeper.Keeper
+	MsgSetName        = types.MsgSetName
+	MsgBuyName        = types.MsgBuyName
+	MsgDeleteName     = types.MsgDeleteName
+	QueryResResolve   = types.QueryResResolve
+	QueryResNames     = types.QueryResNames
+	Whois             = types.Whois
+	QueryResTransfers = types.QueryResTransfers
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	MsgRegisterTransfer = types.MsgRegisterTransfer
-	QueryTransfers      = types.QueryTransfers
-	QueryTransferInfo   = types.QueryTransferInfo
-	Transfer            = types.Transfer
+	//QueryTransfers      = types.QueryTransfers
+	//	QueryTransferInfo   = types.QueryTransferInfo
+	Transfer = types.Transfer
 )

@@ -93,6 +93,7 @@ func (msg MsgBuyName) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgBuyName) GetSigners() []sdk.AccAddress {
+	println("###########################################")
 	return []sdk.AccAddress{msg.Buyer}
 }
 
@@ -166,6 +167,7 @@ func (msg MsgRegisterTransfer) Type() string { return "register_transfer" }
 // ValidateBasic runs stateless checks on the message
 func (msg MsgRegisterTransfer) ValidateBasic() sdk.Error {
 	if msg.Receiver.Empty() || msg.Sender.Empty() {
+		println("Receiver:", msg.Receiver.String(), "Sender: ", msg.Sender.String())
 		return sdk.ErrInvalidAddress(msg.Receiver.String())
 	}
 	if len(msg.Filename) == 0 || msg.Prestige == 0 {
@@ -181,5 +183,6 @@ func (msg MsgRegisterTransfer) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgRegisterTransfer) GetSigners() []sdk.AccAddress {
-	return []sdk.AccAddress{msg.Receiver}
+	println("Sender1:", msg.Sender.String(), "Receiver1:", msg.Receiver.String(), "Requires signature from:", msg.Receiver.String())
+	return []sdk.AccAddress{msg.Sender}
 }

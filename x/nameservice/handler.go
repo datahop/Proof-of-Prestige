@@ -73,6 +73,12 @@ func handleMsgDeleteName(ctx sdk.Context, keeper Keeper, msg MsgDeleteName) sdk.
 
 // Handle a message to set name
 func handleMsgRegisterTransfer(ctx sdk.Context, keeper Keeper, msg MsgRegisterTransfer) sdk.Result {
-	keeper.SetName(ctx, msg.Name, msg.Value) // If so, set the name to the value specified in the msg.
-	return sdk.Result{}                      // return
+	var transfer types.Transfer
+	transfer.Sender = msg.Sender
+	transfer.Receiver = msg.Receiver
+	transfer.Prestige = msg.Prestige
+	transfer.Filename = msg.Filename
+
+	keeper.SetTransfer(ctx, transfer) // If so, set the name to the value specified in the msg.
+	return sdk.Result{}               // return
 }

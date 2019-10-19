@@ -5,6 +5,7 @@ import (
 	"os"
 
 	abci "github.com/tendermint/tendermint/abci/types"
+	abcitypes "github.com/tendermint/tendermint/abci/types"
 	cmn "github.com/tendermint/tendermint/libs/common"
 	"github.com/tendermint/tendermint/libs/log"
 	tmtypes "github.com/tendermint/tendermint/types"
@@ -310,4 +311,9 @@ func (app *nameServiceApp) ExportAppStateAndValidators(forZeroHeight bool, jailW
 	validators = staking.WriteValidators(ctx, app.stakingKeeper)
 
 	return appState, validators, nil
+}
+
+func (app *nameServiceApp) BeginBlock(req abcitypes.RequestBeginBlock) abcitypes.ResponseBeginBlock {
+	print("~~~~~Begin Block~~~~~~")
+	return abcitypes.ResponseBeginBlock{}
 }
