@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/auth/client/utils"
-	"github.com/cosmos/sdk-application-tutorial/x/nameservice/internal/types"
+	"github.com/datahop/sdk-application-tutorial/x/nameservice/internal/types"
 )
 
 func GetTxCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
@@ -25,6 +25,7 @@ func GetTxCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
 		GetCmdBuyName(cdc),
 		GetCmdSetName(cdc),
 		GetCmdDeleteName(cdc),
+		GetCmdRegisterTransfer(cdc),
 	)...)
 
 	return nameserviceTxCmd
@@ -96,6 +97,35 @@ func GetCmdDeleteName(cdc *codec.Codec) *cobra.Command {
 			txBldr := auth.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
 
 			msg := types.NewMsgDeleteName(args[0], cliCtx.GetFromAddress())
+			err := msg.ValidateBasic()
+			if err != nil {
+				return err
+			}
+
+			// return utils.CompleteAndBroadcastTxCLI(txBldr, cliCtx, msgs)
+			return utils.GenerateOrBroadcastMsgs(cliCtx, txBldr, []sdk.Msg{msg})
+		},
+	}
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// GetCmdRegisterTransfer is the CLI command for registering a transfer
+func GetCmdRegisterTransfer(cdc *codec.Codec) *cobra.Command {
+	return &cobra.Command{
+		Use:   "register-transfer [receiver] [price] [filename]",
+		Short: "register a transfer to a `receiver`",
+		Args:  cobra.ExactArgs(3),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx := context.NewCLIContext().WithCodec(cdc)
+
+			txBldr := auth.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
+
+			// if err := cliCtx.EnsureAccountExists(); err != nil {
+			// 	return err
+			// }
+
+			msg := types.NewMsgRegisterTransfer(cliCtx.GetFromAddress(), args[0], args[1], args[2])
 			err := msg.ValidateBasic()
 			if err != nil {
 				return err
