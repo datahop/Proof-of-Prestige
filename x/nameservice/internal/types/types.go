@@ -41,7 +41,9 @@ type Transfer struct {
 
 // Transfer returns a new Transfer
 func NewTransfer() Transfer {
-	return Transfer{}
+	return Transfer{
+		Filename: " ",
+	}
 }
 
 // implement fmt.Stringer
@@ -50,4 +52,10 @@ func (t Transfer) String() string {
 Receiver: %s
 Prestige: %d
 Filename: %s`, t.Sender, t.Receiver, t.Prestige, t.Filename))
+}
+
+//File structure for register files
+type File struct {
+	Filename string         `json:"filename"`
+	Owner    sdk.AccAddress `json:"owner"`
 }
