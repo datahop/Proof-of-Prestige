@@ -93,7 +93,7 @@ func (msg MsgBuyName) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgBuyName) GetSigners() []sdk.AccAddress {
-    println("###########################################")
+	println("###########################################")
 	return []sdk.AccAddress{msg.Buyer}
 }
 
@@ -184,5 +184,5 @@ func (msg MsgRegisterTransfer) GetSignBytes() []byte {
 // GetSigners defines whose signature is required
 func (msg MsgRegisterTransfer) GetSigners() []sdk.AccAddress {
 	println("Sender1:", msg.Sender.String(), "Receiver1:", msg.Receiver.String(), "Requires signature from:", msg.Receiver.String())
-	return []sdk.AccAddress{msg.Receiver}
+	return []sdk.AccAddress{msg.Sender}
 }
