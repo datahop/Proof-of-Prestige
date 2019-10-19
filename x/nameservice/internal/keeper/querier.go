@@ -10,9 +10,11 @@ import (
 
 // query endpoints supported by the nameservice Querier
 const (
-	QueryResolve = "resolve"
-	QueryWhois   = "whois"
-	QueryNames   = "names"
+	QueryResolve      = "resolve"
+	QueryWhois        = "whois"
+	QueryNames        = "names"
+	QueryTransfers    = "transfers"
+	QueryTransferInfo = "transfer_info"
 )
 
 // NewQuerier is the module level router for state queries
@@ -25,6 +27,10 @@ func NewQuerier(keeper Keeper) sdk.Querier {
 			return queryWhois(ctx, path[1:], req, keeper)
 		case QueryNames:
 			return queryNames(ctx, req, keeper)
+		case QueryTransfers:
+			return queryTransfers(ctx, req, keeper)
+		case QueryTransferInfo:
+			return QueryTransferInfo(ctx, req, keeper)
 		default:
 			return nil, sdk.ErrUnknownRequest("unknown nameservice query endpoint")
 		}
@@ -69,6 +75,36 @@ func queryNames(ctx sdk.Context, req abci.RequestQuery, keeper Keeper) ([]byte, 
 	}
 
 	res, err := codec.MarshalJSONIndent(keeper.cdc, namesList)
+	if err != nil {
+		panic("could not marshal result to JSON")
+	}
+
+	return res, nil
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+func queryTransfers(ctx sdk.Context, req abci.RequestQuery, keeper Keeper) ([]byte, sdk.Error) {
+	var transfersList types.QueryResNames
+
+	iterator := keeper.GetNamesIterator(ctx)
+
+	for ; iterator.Valid(); iterator.Next() {
+		transfersList = append(transfersList, string(iterator.Key()))
+	}
+
+	res, err := codec.MarshalJSONIndent(keeper.cdc, transfersList)
+	if err != nil {
+		panic("could not marshal result to JSON")
+	}
+
+	return res, nil
+}
+
+func queryTransfer(ctx sdk.Context, path []string, req abci.RequestQuery, keeper Keeper) ([]byte, sdk.Error) {
+	transfer := keeper.GetTransfer(ctx, path[0])
+
+	res, err := codec.MarshalJSONIndent(keeper.cdc, transfer)
 	if err != nil {
 		panic("could not marshal result to JSON")
 	}
