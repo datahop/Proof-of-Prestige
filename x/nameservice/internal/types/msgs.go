@@ -136,3 +136,50 @@ func (msg MsgDeleteName) GetSignBytes() []byte {
 func (msg MsgDeleteName) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{msg.Owner}
 }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// MsgSetName defines a SetName message
+type MsgRegisterTransfer struct {
+	Sender   sdk.AccAddress `json:"sender"`
+	Receiver sdk.AccAddress `json:"receiver"`
+	Prestige uint           `json:"price"`
+	Filename string         `json:"filename"`
+}
+
+// NewMsgSetName is a constructor function for MsgSetName
+func NewMsgRegisterTransfer(sender sdk.AccAddress, receiver sdk.AccAddress, prestige uint, filename string) MsgRegisterTransfer {
+	return MsgRegisterTransfer{
+		Sender:   sender,
+		Receiver: receiver,
+		Prestige: prestige,
+		Filename: filename,
+	}
+}
+
+// Route should return the name of the module
+func (msg MsgRegisterTransfer) Route() string { return RouterKey }
+
+// Type should return the action
+func (msg MsgRegisterTransfer) Type() string { return "register_transfer" }
+
+// ValidateBasic runs stateless checks on the message
+func (msg MsgRegisterTransfer) ValidateBasic() sdk.Error {
+	if msg.Receiver.Empty() || msg.Sender.Empty() {
+		return sdk.ErrInvalidAddress(msg.Receiver.String())
+	}
+	if len(msg.Filename) == 0 || msg.Prestige == 0 {
+		return sdk.ErrUnknownRequest("Filename and/or Prestige cannot be empty/0")
+	}
+	return nil
+}
+
+// GetSignBytes encodes the message for signing
+func (msg MsgRegisterTransfer) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSigners defines whose signature is required
+func (msg MsgRegisterTransfer) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{msg.Receiver}
+}

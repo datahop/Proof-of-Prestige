@@ -119,33 +119,15 @@ func (k Keeper) GetTransfer(ctx sdk.Context, name string) types.Transfer {
 }
 
 // Sets the entire Whois metadata struct for a name
-func (k Keeper) SetTransfer(ctx sdk.Context, prestige uint, transfer types.Transfer) {
+func (k Keeper) SetTransfer(ctx sdk.Context, transfer types.Transfer) {
 	if transfer.Filename == "" || transfer.Sender.Empty() || transfer.Receiver.Empty() {
 		return
 	}
 	store := ctx.KVStore(k.storeKey)
-	store.Set([]byte(transfer.Sender+transfer.Receiver+transfer.Filename), k.cdc.MustMarshalBinaryBare(transfer))
+	store.Set([]byte(string(transfer.Sender.String()+transfer.Receiver.String()+transfer.Filename)), k.cdc.MustMarshalBinaryBare(transfer))
 }
 
 /*
-// Deletes the entire Whois metadata struct for a name
-func (k Keeper) DeleteWhois(ctx sdk.Context, name string) {
-	store := ctx.KVStore(k.storeKey)
-	store.Delete([]byte(name))
-}
-
-// ResolveName - returns the string that the name resolves to
-func (k Keeper) ResolveName(ctx sdk.Context, name string) string {
-	return k.GetWhois(ctx, name).Value
-}
-
-// SetName - sets the value string that a name resolves to
-func (k Keeper) SetName(ctx sdk.Context, name string, value string) {
-	whois := k.GetWhois(ctx, name)
-	whois.Value = value
-	k.SetWhois(ctx, name, whois)
-}
-
 // HasOwner - returns whether or not the name already has an owner
 func (k Keeper) HasOwner(ctx sdk.Context, name string) bool {
 	return !k.GetWhois(ctx, name).Owner.Empty()
