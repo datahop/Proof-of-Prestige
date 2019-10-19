@@ -141,6 +141,7 @@ func GetCmdRegisterTransfer(cdc *codec.Codec) *cobra.Command {
 			msg := types.NewMsgRegisterTransfer(cliCtx.GetFromAddress(), receiver, prestige, args[2])
 			err2 := msg.ValidateBasic()
 			if err2 != nil {
+				print("Err2")
 				return err2
 			}
 
