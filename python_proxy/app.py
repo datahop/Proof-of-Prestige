@@ -7,10 +7,10 @@ app = Flask(__name__)
 @app.route("/nameservice/names", methods=['POST'])
 def test():
     if request.method == 'POST':
-        username = request.json["filename"]
-        receiver = request.json["receiver"]
-        price = request.json["price"]
-    print(username + " "+ receiver +" " +  price)
+        username = request.headers.get["srcaddress"]
+        receiver = request.headers.get["dstaddress"]
+        prestige = request.headers.get["prestige"]
+    print(username + " "+ receiver +" " +  prestige)
     return jsonify(200)
 
 if __name__ == '__main__':
