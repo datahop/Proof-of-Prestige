@@ -3,7 +3,7 @@ package nameservice
 import (
 	"fmt"
 
-	"github.com/cosmos/sdk-application-tutorial/x/nameservice/internal/types"
+	"github.com/datahop/sdk-application-tutorial/x/nameservice/internal/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -18,6 +18,8 @@ func NewHandler(keeper Keeper) sdk.Handler {
 			return handleMsgBuyName(ctx, keeper, msg)
 		case MsgDeleteName:
 			return handleMsgDeleteName(ctx, keeper, msg)
+		case types.MsgRegisterTransfer:
+			return handleMsgRegisterTransfer(ctx, keeper, msg)
 		default:
 			errMsg := fmt.Sprintf("Unrecognized nameservice Msg type: %v", msg.Type())
 			return sdk.ErrUnknownRequest(errMsg).Result()
@@ -67,4 +69,10 @@ func handleMsgDeleteName(ctx sdk.Context, keeper Keeper, msg MsgDeleteName) sdk.
 
 	keeper.DeleteWhois(ctx, msg.Name)
 	return sdk.Result{}
+}
+
+// Handle a message to set name
+func handleMsgRegisterTransfer(ctx sdk.Context, keeper Keeper, msg MsgRegisterTransfer) sdk.Result {
+	keeper.SetName(ctx, msg.Name, msg.Value) // If so, set the name to the value specified in the msg.
+	return sdk.Result{}                      // return
 }
