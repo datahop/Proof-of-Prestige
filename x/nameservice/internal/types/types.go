@@ -30,3 +30,24 @@ func (w Whois) String() string {
 Value: %s
 Price: %s`, w.Owner, w.Value, w.Price))
 }
+
+// Transfer is a struct that contains all the metadata of a transfer
+type Transfer struct {
+	Sender   sdk.AccAddress `json:"sender"`
+	Receiver sdk.AccAddress `json:"receiver"`
+	Prestige uint           `json:"price"`
+	Filename string         `json:"filename"`
+}
+
+// Transfer returns a new Transfer
+func NewTransfer() Transfer {
+	return Transfer{}
+}
+
+// implement fmt.Stringer
+func (t Transfer) String() string {
+	return strings.TrimSpace(fmt.Sprintf(`Sender: %s
+Receiver: %s
+Prestige: %d
+Filename: %s`, t.Sender, t.Receiver, t.Prestige, t.Filename))
+}
