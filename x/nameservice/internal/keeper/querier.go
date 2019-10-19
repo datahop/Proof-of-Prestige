@@ -10,11 +10,11 @@ import (
 
 // query endpoints supported by the nameservice Querier
 const (
-	QueryResolve      = "resolve"
-	QueryWhois        = "whois"
-	QueryNames        = "names"
-	QueryTransfers    = "transfers"
-	QueryTransferInfo = "transfer_info"
+	QueryResolve   = "resolve"
+	QueryWhois     = "whois"
+	QueryNames     = "names"
+	QueryTransfers = "transfers"
+	QueryTransfer  = "transfer"
 )
 
 // NewQuerier is the module level router for state queries
@@ -29,8 +29,8 @@ func NewQuerier(keeper Keeper) sdk.Querier {
 			return queryNames(ctx, req, keeper)
 		case QueryTransfers:
 			return queryTransfers(ctx, req, keeper)
-		case QueryTransferInfo:
-			return QueryTransferInfo(ctx, req, keeper)
+		case QueryTransfer:
+			return queryTransfer(ctx, path[1:], req, keeper)
 		default:
 			return nil, sdk.ErrUnknownRequest("unknown nameservice query endpoint")
 		}
