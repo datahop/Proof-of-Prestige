@@ -127,7 +127,10 @@ func GetCmdRegisterTransfer(cdc *codec.Codec) *cobra.Command {
 			// }
 
 			var receiver sdk.AccAddress
-			//AccAddressFromBech32(receiverAddr, arg[0])
+			receiver, err := sdk.AccAddressFromBech32(args[0])
+			if err != nil {
+				return err
+			}
 			//var prestige uint64
 			prestige64, err := strconv.ParseUint(args[1], 10, 32)
 			if err != nil {
