@@ -22,3 +22,5 @@ Translations:
 * Accept file transfer acknowledgments, verify them and update user prestige (DeliverTx()) 
 * Make Tendermint to use prestige values instead of stake (where to store user’s prestige? Bank? Or custom structures? - need to consult Cosmos guys on that)
 
+### State Modification Messages
+* RegisterTransfer - register a transfer between 2 peers specifying sender, receiver, filename and an amount of exchanged prestige
