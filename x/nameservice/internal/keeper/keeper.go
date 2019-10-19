@@ -118,16 +118,16 @@ func (k Keeper) GetTransfer(ctx sdk.Context, name string) types.Transfer {
 	return transfer
 }
 
-/*
 // Sets the entire Whois metadata struct for a name
-func (k Keeper) SetWhois(ctx sdk.Context, name string, whois types.Whois) {
-	if whois.Owner.Empty() {
+func (k Keeper) SetTransfer(ctx sdk.Context, prestige uint, transfer types.Transfer) {
+	if transfer.Filename == "" || transfer.Sender.Empty() || transfer.Receiver.Empty() {
 		return
 	}
 	store := ctx.KVStore(k.storeKey)
-	store.Set([]byte(name), k.cdc.MustMarshalBinaryBare(whois))
+	store.Set([]byte(transfer.Sender+transfer.Receiver+transfer.Filename), k.cdc.MustMarshalBinaryBare(transfer))
 }
 
+/*
 // Deletes the entire Whois metadata struct for a name
 func (k Keeper) DeleteWhois(ctx sdk.Context, name string) {
 	store := ctx.KVStore(k.storeKey)
