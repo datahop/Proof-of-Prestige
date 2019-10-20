@@ -193,6 +193,7 @@ func NewNameServiceApp(
 	app.nsKeeper = nameservice.NewKeeper(
 		app.bankKeeper,
 		keys[nameservice.StoreKey],
+		keys[nameservice.PKey],
 		app.cdc,
 	)
 

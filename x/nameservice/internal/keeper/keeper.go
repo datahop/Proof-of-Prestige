@@ -12,15 +12,17 @@ type Keeper struct {
 	CoinKeeper bank.Keeper
 
 	storeKey sdk.StoreKey // Unexposed key to access store from sdk.Context
+	pKey     sdk.StoreKey //
 
 	cdc *codec.Codec // The wire codec for binary encoding/decoding.
 }
 
 // NewKeeper creates new instances of the nameservice Keeper
-func NewKeeper(coinKeeper bank.Keeper, storeKey sdk.StoreKey, cdc *codec.Codec) Keeper {
+func NewKeeper(coinKeeper bank.Keeper, pKey sdk.StoreKey, storeKey sdk.StoreKey, cdc *codec.Codec) Keeper {
 	return Keeper{
 		CoinKeeper: coinKeeper,
 		storeKey:   storeKey,
+		pKey:       pKey,
 		cdc:        cdc,
 	}
 }
