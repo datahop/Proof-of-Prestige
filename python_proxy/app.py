@@ -1,9 +1,14 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 import json
 import requests
 import subprocess
 import json
 app = Flask(__name__)
+
+@app.after_request
+def apply_caching(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
 
 @app.route("/report", methods=['POST'])
 def transfer_prestige():
@@ -25,14 +30,12 @@ def get_transfer_id():
 @app.route("/transfers", methods=['POST'])
 def get_transfer_information():
     if request.method == 'POST':
-        transfer_information = request.headers.get("transferid")
+        #print(request.args)
+        transfer_information =  request.get_data()
         result = subprocess.check_output(["nscli", "query"  ,"nameservice" ,"transfer",
-                         transfer_information ])
+                        transfer_information.decode("utf-8") ])
         transfer_information = result.decode("utf-8")
         return jsonify(json.loads(transfer_information))
-
-
-    #nscli query  nameservice transfer cosmos10q3p8argpsuam0ylqmh6qwj2k444htrq96dshccosmos1m08557vdl5wkc7yagj5w0ak8w3vmf7ha9dfqv0test.dat
 
 
 if __name__ == '__main__':
