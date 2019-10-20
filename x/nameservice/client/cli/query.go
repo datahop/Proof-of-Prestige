@@ -22,6 +22,8 @@ func GetQueryCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
 		GetCmdResolveName(storeKey, cdc),
 		GetCmdWhois(storeKey, cdc),
 		GetCmdNames(storeKey, cdc),
+		GetCmdTransfer(storeKey, cdc),
+		GetCmdTransfers(storeKey, cdc),
 	)...)
 	return nameserviceQueryCmd
 }
@@ -88,6 +90,51 @@ func GetCmdNames(queryRoute string, cdc *codec.Codec) *cobra.Command {
 			}
 
 			var out types.QueryResNames
+			cdc.MustUnmarshalJSON(res, &out)
+			return cliCtx.PrintOutput(out)
+		},
+	}
+}
+
+// GetCmdWhois queries information about a domain
+func GetCmdTransfer(queryRoute string, cdc *codec.Codec) *cobra.Command {
+	return &cobra.Command{
+		Use:   "transfer [id]",
+		Short: "Query transfer details",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx := context.NewCLIContext().WithCodec(cdc)
+			transfer := args[0]
+
+			res, _, err := cliCtx.QueryWithData(fmt.Sprintf("custom/%s/transfer/%s", queryRoute, transfer), nil)
+			if err != nil {
+				fmt.Printf("could not resolve transfer - %s \n", transfer)
+				return nil
+			}
+
+			var out types.Transfer
+			cdc.MustUnmarshalJSON(res, &out)
+			return cliCtx.PrintOutput(out)
+		},
+	}
+}
+
+// GetTransfers queries a list of all transfers
+func GetCmdTransfers(queryRoute string, cdc *codec.Codec) *cobra.Command {
+	return &cobra.Command{
+		Use:   "transfers",
+		Short: "transfers",
+		// Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx := context.NewCLIContext().WithCodec(cdc)
+
+			res, _, err := cliCtx.QueryWithData(fmt.Sprintf("custom/%s/transfers", queryRoute), nil)
+			if err != nil {
+				fmt.Printf("could not get query transfers\n")
+				return nil
+			}
+
+			var out types.QueryResTransfers
 			cdc.MustUnmarshalJSON(res, &out)
 			return cliCtx.PrintOutput(out)
 		},
