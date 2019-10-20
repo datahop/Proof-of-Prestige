@@ -1,19 +1,11 @@
-# SDK Application Tutorial
+# DataHop Project (Team-34) for Diffusion'19 Hackathon
+This projects contains 3 main modules:
+* **An Android app** allowing users to exchange content using Bluetooth Low Energy and WiFi Direct.
+* A Cosmos-based **blockchain implementation** using [Proof of Prestige](https://blockchain.ieee.org/technicalbriefs/september-2019/proof-of-prestige) reward scheme. 
+* **Visualisation module** reading data from the blockchain and presenting them in a user-friendly way.
 
-This repository contains the source code of the nameservice tutorial. To be changed into PoP. 
+User exchange content they're interested in. After each p2p transfer, the sender can submti an acknowledgment to the blockchain and collect rewards. All the modules communicate using interoperable REST/JSON allowing for easy integration.
 
-## Tutorial
-
-**[Click here](./tutorial/README.md)** to access the tutorial. You can also view it on the [website](https://cosmos.network/docs/tutorial).
-
-## Building and running the example
-
-**[Click here](./tutorial/build-run.md)**  for instructions on how to build and run the code.
-
-Translations:
-- [中文](./README_cn.md)
-
-## [Slides](https://docs.google.com/presentation/d/1aCMAdkVY-gfgnGNPTygwVk3o68czPQ_VYfvdMy9Ek5Q/edit?usp=sharing)
 
 
 ## Tasks for the Hackathon
