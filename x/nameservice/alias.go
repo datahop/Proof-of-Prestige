@@ -9,6 +9,7 @@ const (
 	ModuleName = types.ModuleName
 	RouterKey  = types.RouterKey
 	StoreKey   = types.StoreKey
+	PKey       = types.Pkey
 )
 
 var (
